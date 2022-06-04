@@ -1,0 +1,13 @@
+- name: test add ending backslash to win_path
+  hosts: localhost
+  vars:
+    paths:
+      - 'c:\temp'
+      - d:\some-dir\\\
+      - d:\some-dir\other-dir\
+      - 'c:\temp\'
+  tasks:
+    - name: debug
+      loop: "{{ paths }}"
+      debug:
+        msg: "{{ item|regex_replace('^(.*[^\\\\])\\\\*$','\\1\\\\') }}"
